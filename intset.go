@@ -9,10 +9,9 @@ package intset
 
 import (
 	"bytes"
-	"fmt"
+	"strconv"
+	"strings"
 )
-
-//!+intset
 
 // An IntSet is a set of small non-negative integers.
 // Its zero value represents the empty set.
@@ -27,7 +26,7 @@ func (s *IntSet) Has(x int) bool {
 	return word < len(s.words) && (s.words[word]>>bit)&1 == 1
 }
 
-// Add adds the non-negative value x to the set.
+// Add the non-negative value x to the set.
 func (s *IntSet) Add(x int) {
 	word, bit := x/64, uint(x%64)
 	for word >= len(s.words) {
@@ -57,32 +56,14 @@ func (s *IntSet) UnionWith(t *IntSet) {
 	}
 }
 
-//!-intset
-
-//!+string
-
 // String returns the set as a string of the form "{1 2 3}".
 func (s *IntSet) String() string {
 	var buf bytes.Buffer
 	buf.WriteByte('{')
-	for i, word := range s.words {
-		if word == 0 {
-			continue
-		}
-		for j := 0; j < 64; j++ {
-			if word&(1<<uint(j)) != 0 {
-				if buf.Len() > len("{") {
-					buf.WriteByte(' ')
-				}
-				fmt.Fprintf(&buf, "%d", 64*i+j)
-			}
-		}
-	}
+	buf.WriteString(strings.Join(s.elemStr(), " "))
 	buf.WriteByte('}')
 	return buf.String()
 }
-
-//!-string
 
 func FromSlice(slice []int) *IntSet {
 	s := IntSet{}
@@ -99,3 +80,29 @@ func bitCount(word uint64) int {
 	}
 	return count
 }
+
+func (s *IntSet) Elems() []int {
+	elems := []int{}
+	for i, word := range s.words {
+		if word == 0 {
+			continue
+		}
+		for j := 0; j < 64; j++ {
+			if word&(1<<uint(j)) != 0 {
+				elems = append(elems, 64*i+j)
+			}
+		}
+	}
+	return elems
+}
+
+func (s *IntSet) elemStr() []string {
+	elems := s.Elems()
+	res := make([]string, len(elems))
+	for i, v := range elems {
+		res[i] = strconv.Itoa(v)
+	}
+	return res
+}
+
+

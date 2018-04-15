@@ -111,3 +111,33 @@ func TestBitCount(t *testing.T) {
 		})
 	}
 }
+
+func TestElems(t *testing.T) {
+	var testCases = []struct {
+		set  *IntSet
+		want []int
+	}{
+		{FromSlice(empty), empty},
+		{FromSlice(single), single},
+		{FromSlice(primes), primes},
+	}
+	for _, tc := range testCases {
+		t.Run(fmt.Sprintf("%v elems %v", tc.set, tc.want), func(t *testing.T) {
+			got := tc.set.Elems()
+			equal := true;
+			if len(got) != len(tc.want) {
+				equal = false
+			} else {
+				for i, v := range got {
+					if v != tc.want[i] {
+						equal = false
+						break
+					}
+				}
+			}
+			if !equal {
+				t.Errorf("%v.Elems() = %v; want %v", tc.set, got, tc.want)
+			}
+		})
+	}
+}
