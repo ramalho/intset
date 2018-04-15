@@ -27,7 +27,7 @@ func TestAdd(t *testing.T) {
 }
 
 func TestFromSlice(t *testing.T) {
-	s := FromSlice(primes)
+	s := NewFromSlice(primes)
 	want := "{2 3 5 7}"
 	got := s.String()
 	if want != got {
@@ -36,7 +36,7 @@ func TestFromSlice(t *testing.T) {
 }
 
 func TestLen(t *testing.T) {
-	s := FromSlice(fibonacci)
+	s := NewFromSlice(fibonacci)
 	want := 6
 	got := s.Len()
 	if want != got {
@@ -45,9 +45,9 @@ func TestLen(t *testing.T) {
 }
 
 func TestLen_Union(t *testing.T) {
-	want := FromSlice(union).Len()
-	set := FromSlice(primes)
-	set.UnionWith(FromSlice(fibonacci))
+	want := NewFromSlice(union).Len()
+	set := NewFromSlice(primes)
+	set.UnionWith(NewFromSlice(fibonacci))
 	got := set.Len()
 	if want != got {
 		t.Errorf("%d != %d", got, want)
@@ -57,8 +57,8 @@ func TestLen_Union(t *testing.T) {
 
 func TestLen_UnionSecondWord(t *testing.T) {
 	// UnionWith set that uses 2 words: {100}
-	set := FromSlice(fibonacci)
-	set.UnionWith(FromSlice(single))
+	set := NewFromSlice(fibonacci)
+	set.UnionWith(NewFromSlice(single))
 	want := 7
 	got := set.Len()
 	if want != got {
@@ -73,9 +73,9 @@ func TestHas(t *testing.T) {
 		set  *IntSet
 		want bool
 	}{
-		{3, FromSlice(primes), true},
-		{4, FromSlice(primes), false},
-		{1, FromSlice(empty), false},
+		{3, NewFromSlice(primes), true},
+		{4, NewFromSlice(primes), false},
+		{1, NewFromSlice(empty), false},
 	}
 	for _, tc := range testCases {
 		t.Run(fmt.Sprintf("%d in %v", tc.n, tc.set), func(t *testing.T) {
@@ -117,9 +117,9 @@ func TestElems(t *testing.T) {
 		set  *IntSet
 		want []int
 	}{
-		{FromSlice(empty), empty},
-		{FromSlice(single), single},
-		{FromSlice(primes), primes},
+		{NewFromSlice(empty), empty},
+		{NewFromSlice(single), single},
+		{NewFromSlice(primes), primes},
 	}
 	for _, tc := range testCases {
 		t.Run(fmt.Sprintf("%v elems %v", tc.set, tc.want), func(t *testing.T) {

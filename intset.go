@@ -36,6 +36,8 @@ func (s *IntSet) Add(x int) {
 	s.len++
 }
 
+// Len reports the number of elements in the set.
+// Also known as set cardinality.
 func (s *IntSet) Len() int {
 	return s.len
 }
@@ -65,7 +67,9 @@ func (s *IntSet) String() string {
 	return buf.String()
 }
 
-func FromSlice(slice []int) *IntSet {
+// NewFromSlice returns pointer to a new IntSet with the
+// elements given in the slice
+func NewFromSlice(slice []int) *IntSet {
 	s := IntSet{}
 	for _, n := range slice {
 		s.Add(n)
@@ -81,6 +85,8 @@ func bitCount(word uint64) int {
 	return count
 }
 
+// Elems returns a new slice of integers with the elements
+// found in the IntSet in ascending order.
 func (s *IntSet) Elems() []int {
 	elems := []int{}
 	for i, word := range s.words {
@@ -104,5 +110,3 @@ func (s *IntSet) elemStr() []string {
 	}
 	return res
 }
-
-
