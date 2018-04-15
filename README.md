@@ -1,5 +1,8 @@
 # `intset`
 
+[![GoDoc](https://godoc.org/github.com/standupdev/intset?status.svg)](https://godoc.org/github.com/standupdev/intset)
+
+
 A set type for integer elements in Go, based on the `intset`example 
 from [_The Go Programming Language_](http://www.gopl.io/),
 by Alan A. A. Donovan & Brian W. Kernighan.
