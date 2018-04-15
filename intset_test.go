@@ -165,7 +165,7 @@ func Example() {
 	// true false
 }
 
-func ExampleSet_String() {
+func ExampleIntSet_String() {
 	var x IntSet
 	x.Add(1)
 	x.Add(144)
