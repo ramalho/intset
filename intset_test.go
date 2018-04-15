@@ -165,7 +165,7 @@ func Example() {
 	// true false
 }
 
-func Example_string_representations() {
+func ExampleSet_String() {
 	var x IntSet
 	x.Add(1)
 	x.Add(144)
